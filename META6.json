@@ -1,0 +1,22 @@
+{
+    "name" : "RegexUtils",
+    "description" : "Module that provides helpers for Regex stuff both Perl5 and EMCA262Regex",
+    "perl" : "6.d",
+    "license" : "GPL-v3.0",
+    "authors" : [
+        "Francis Grizzly Smit <grizzly@smit.id.au>"
+    ],
+    "depends": [
+        "ECMA262Regex"
+    ],
+    "provides" : {
+        "RegexUtils" : "rakulib/RegexUtils.rakumod"
+    },
+    "source-url" : "git@github.com:grizzlysmit/RegexUtils.git",
+    "support" : {
+        "source" : "git@github.com:grizzlysmit/RegexUtils.git"
+    },
+    "auth": "zef:grizzlysmit",
+    "version" : "0.1.0",
+    "tags" : [ "regex", "regular expressions", "perl5", "helpers", "javascript" ]
+}
