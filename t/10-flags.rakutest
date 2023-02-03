@@ -1,0 +1,27 @@
+use v6;
+use RegexUtils;
+use Test;
+
+# Perl5        #
+# modern style #
+ok (RegexUtils.get-modern-perl5-flags(':i:m') eq ':ignorecase:ignoremark'), "Flags parsed correctly";
+ok (RegexUtils.get-modern-perl5-flags(':i:m:s') eq ':ignorecase:ignoremark:sigspace'), "Flags parsed correctly";
+ok (RegexUtils.get-modern-perl5-flags(':ignorecase:ignoremark') eq ':ignorecase:ignoremark'), "Flags parsed correctly";
+ok (RegexUtils.get-modern-perl5-flags(':ignorecase:ignoremark:sigspace') eq ':ignorecase:ignoremark:sigspace'), "Flags parsed correctly";
+
+# old style #
+ok (RegexUtils.get-old-perl5-flags('im') eq ':ignorecase:ignoremark'), "Flags parsed correctly";
+ok (RegexUtils.get-old-perl5-flags('imx') eq ':ignorecase:ignoremark:sigspace'), "Flags parsed correctly";
+
+# EMCA262      #
+# modern style #
+ok (RegexUtils.get-modern-emca262-flags(':i:m') eq ':ignorecase'), "Flags parsed correctly";
+ok (RegexUtils.get-modern-emca262-flags(':i:m:s') eq ':ignorecase'), "Flags parsed correctly";
+ok (RegexUtils.get-modern-emca262-flags(':ignorecase:ignoremark') eq ':ignorecase'), "Flags parsed correctly";
+ok (RegexUtils.get-modern-emca262-flags(':ignorecase:ignoremark:sigspace') eq ':ignorecase'), "Flags parsed correctly";
+
+# old style #
+ok (RegexUtils.get-old-emca262-flags('im') eq ':ignorecase'), "Flags parsed correctly";
+ok (RegexUtils.get-old-emca262-flags('imx') eq ':ignorecase'), "Flags parsed correctly";
+
+done-testing;

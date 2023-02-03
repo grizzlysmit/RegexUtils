@@ -1,0 +1,19 @@
+use v6;
+use RegexUtils;
+use Test;
+
+
+my $regex-perl5 = RegexUtils.CreatePerlRegex('^fo+\n$', ':ignorecase');
+
+ok "foo\n" ~~ $regex-perl5, 'Regex is compiled, successful check';
+ok "FOo\n" ~~ $regex-perl5, 'Regex is compiled, successful check';
+nok " foo\n" ~~ $regex-perl5, 'Regex is compiled, failed check';
+
+# note because of the way EMCA262Regex compiles '^fo+\n' we cannot get it to do ignorecase #
+my $regex-emca = RegexUtils.CreateEMCA262Regex('^[f][o]+\n', ':ignorecase');
+
+ok "foo\n" ~~ $regex-emca, 'Regex is compiled, successful check';
+ok "FOo\n" ~~ $regex-emca, 'Regex is compiled, successful check';
+nok " foo\n" ~~ $regex-emca, 'Regex is compiled, failed check';
+
+done-testing;
