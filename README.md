@@ -2,6 +2,7 @@ RegexUtils
 ============
 
 1. [CreatePerlRegex](https://github.com/grizzlysmit/RegexUtils#method-createperlregexstrd-rg-strd-flags-is-copy--)
+1. [CreateEMCA262Regex](https://github.com/grizzlysmit/RegexUtils#method-createemca262regexstrd-str-strd-flags-is-copy------regexd)
 
 ## method CreatePerlRegex(Str:D $rg, Str:D $flags is copy = '')
 

@@ -17,6 +17,6 @@
         "source" : "git@github.com:grizzlysmit/RegexUtils.git"
     },
     "auth": "zef:grizzlysmit",
-    "version" : "0.1.0",
+    "version" : "0.1.1",
     "tags" : [ "regex", "regular expressions", "perl5", "helpers", "javascript" ]
 }
