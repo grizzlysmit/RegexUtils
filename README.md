@@ -3,6 +3,10 @@ RegexUtils
 
 ## method CreatePerlRegex(Str:D $rg, Str:D $flags is copy = '')
 
+CreatePerlRegex constructs a Perl5 regex from a string with the required flags.
+
+**Note:** not all raku flags are supported due to diffrences between the flags in the two languages 
+
 ```raku
 [0] > use RegexUtils;
 Nil
