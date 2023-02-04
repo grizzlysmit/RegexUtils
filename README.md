@@ -3,6 +3,10 @@ RegexUtils
 
 1. [CreatePerlRegex](https://github.com/grizzlysmit/RegexUtils#method-createperlregexstrd-rg-strd-flags-is-copy--)
 1. [CreateEMCA262Regex](https://github.com/grizzlysmit/RegexUtils#method-createemca262regexstrd-str-strd-flags-is-copy------regexd)
+1. [get-modern-perl5-flags](https://github.com/grizzlysmit/RegexUtils#method-get-modern-perl5-flagsstrd-flags----strd)
+1. [get-old-perl5-flags](https://github.com/grizzlysmit/RegexUtils#method-get-old-perl5-flagsstrd-flags----strd)
+1. [get-modern-emca262-flags](https://github.com/grizzlysmit/RegexUtils#method-get-modern-emca262-flagsstrd-flags----strd)
+1. [get-old-emca262-flags](https://github.com/grizzlysmit/RegexUtils#method-get-old-emca262-flagsstrd-flags----strd)
 
 ## method CreatePerlRegex(Str:D $rg, Str:D $flags is copy = '')
 
