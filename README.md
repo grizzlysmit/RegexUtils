@@ -25,7 +25,7 @@ rx:Perl5:ignorecase/^fo+\n$/
 
 ## method CreateEMCA262Regex(Str:D $str, Str:D $flags is copy = '' --> Regex:D)
 
-CreateEMCA262Regex converts a EMCA262 Regex to a raku one. using EMCA262Regex and applies flags to it.
+CreateEMCA262Regex converts a EMCA262 Regex to a raku one. using the [EMCA262Regex](https://modules.raku.org/dist/ECMA262Regex:zef:zef:jnthn) package  and applies flags to it.
 
 ```raku
 [0] > use RegexUtils;
