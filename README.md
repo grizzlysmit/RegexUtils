@@ -50,3 +50,11 @@ rx:ignorecase/^\x66\x6F+\n/
 [2] > so "Fooo\n" ~~ $regex-emca;
 False
 ```
+
+## method get-modern-perl5-flags(Str:D $flags --> Str:D)
+
+## method get-old-perl5-flags(Str:D $flags --> Str:D)
+
+## method get-modern-emca262-flags(Str:D $flags --> Str:D)
+
+## method get-old-emca262-flags(Str:D $flags --> Str:D) 
