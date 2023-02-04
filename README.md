@@ -1,6 +1,8 @@
 RegexUtils
 ============
 
+1. [CreatePerlRegex](https://github.com/grizzlysmit/RegexUtils#method-createperlregexstrd-rg-strd-flags-is-copy--)
+
 ## method CreatePerlRegex(Str:D $rg, Str:D $flags is copy = '')
 
 CreatePerlRegex constructs a Perl5 regex from a string with the required flags.
