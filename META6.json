@@ -10,13 +10,15 @@
         "ECMA262Regex"
     ],
     "provides" : {
-        "RegexUtils" : "rakulib/RegexUtils.rakumod"
+        "RegexUtils" : "lib/RegexUtils.rakumod"
     },
     "source-url" : "git@github.com:grizzlysmit/RegexUtils.git",
     "support" : {
-        "source" : "git@github.com:grizzlysmit/RegexUtils.git"
+        "source" : "git@github.com:grizzlysmit/RegexUtils.git",
+        "email" : "grizzly@smit.id.au",
+        "bugtracker": "https://github.com/grizzlysmit/RegexUtils/issues"
     },
     "auth": "zef:grizzlysmit",
-    "version" : "0.1.3",
+    "version" : "0.1.4",
     "tags" : [ "regex", "regular expressions", "perl5", "helpers", "javascript" ]
 }
