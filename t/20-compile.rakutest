@@ -1,0 +1,15 @@
+use v6;
+use RegexUtils;
+use Test;
+
+# Perl5        #
+ok (RegexUtils.CreatePerlRegex('^fo+\n$', ':ignorecase').gist eq 'rx:Perl5:ignorecase/^fo+\n$/'), 'fo\n, foo\n, FOO\n, ... whole string case insensitive';
+ok (RegexUtils.CreatePerlRegex('^fo+\n$').gist eq 'rx:Perl5/^fo+\n$/'), 'fo\n, foo\n, ... whole string case sensitive';
+ok (RegexUtils.CreatePerlRegex('^a|b$', ':ignorecase').gist eq 'rx:Perl5:ignorecase/^a|b$/'), "a or b whole string case insensitive";
+
+# EEMCA262 #
+ok (RegexUtils.CreateEMCA262Regex('^[f][o]+\n$', ':ignorecase').gist eq 'rx:ignorecase/^<[f]><[o]>+\n$/'), 'fo\n, foo\n, FOO\n, ... whole string case insensitive';
+ok (RegexUtils.CreateEMCA262Regex('^fo+\n$').gist eq 'rx/^\x66\x6F+\n$/'), 'fo\n, foo\n, ... whole string case sensitive';
+ok (RegexUtils.CreateEMCA262Regex('^a|b$').gist eq 'rx/^\x61 || \x62$/'), "a or b whole string case insensitive";
+
+done-testing;
