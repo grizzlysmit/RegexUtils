@@ -54,7 +54,7 @@ Francis Grizzly Smit (grizzly@smit.id.au)
 VERSION
 =======
 
-v0.1.4
+v0.1.5
 
 TITLE
 =====
@@ -64,7 +64,7 @@ RegexUtils
 SUBTITLE
 ========
 
-A Raku module that provides helpers for Regex stuff both Perl5 and EMCA262Regex
+A Raku class/module that provides helpers for Regex stuff both Perl5 and EMCA262Regex
 
 COPYRIGHT
 =========
@@ -74,7 +74,7 @@ LGPL V3.0+ [LICENSE](https://github.com/grizzlysmit/RegexUtils/blob/main/LICENSE
 Introduction
 ============
 
-A **Raku** module that provides helpers for **`Regex`** stuff both **`Perl5`** and **`EMCA262Regex`**.
+A **Raku** class/module that provides helpers for **`Regex`** stuff both **`Perl5`** and **`EMCA262Regex`**.
 
 [Top of Document](#table-of-contents)
 

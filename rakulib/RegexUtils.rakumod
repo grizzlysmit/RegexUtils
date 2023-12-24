@@ -1,4 +1,4 @@
-class RegexUtils:ver<0.1.4>:auth<Francis Grizzly Smit (grizzlysmit@smit.id.au)> {
+class RegexUtils:ver<0.1.5>:auth<Francis Grizzly Smit (grizzlysmit@smit.id.au)> {
 
 =begin pod
 
@@ -31,16 +31,16 @@ Table of  Contents
 
 =NAME Gzz::Text::Utils 
 =AUTHOR Francis Grizzly Smit (grizzly@smit.id.au)
-=VERSION v0.1.4
+=VERSION v0.1.5
 =TITLE RegexUtils
-=SUBTITLE A Raku module that provides helpers for Regex stuff both Perl5 and EMCA262Regex
+=SUBTITLE A Raku class/module that provides helpers for Regex stuff both Perl5 and EMCA262Regex
 
 =COPYRIGHT
 LGPL V3.0+ L<LICENSE|https://github.com/grizzlysmit/RegexUtils/blob/main/LICENSE>
 
 =head1 Introduction
 
-A B<Raku> module that provides helpers for B<C<Regex>> stuff both B<C<Perl5>> and B<C<EMCA262Regex>>.
+A B<Raku> class/module that provides helpers for B<C<Regex>> stuff both B<C<Perl5>> and B<C<EMCA262Regex>>.
 
 L<Top of Document|#table-of-contents>
 

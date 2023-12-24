@@ -24,7 +24,7 @@ Av8AAAD/AAAAAAAAAEAAAAAAAAAAGQAAAP/RAACR/35+/wAAAP8A+wL/AAAA2gAAAGX/AADa/35+
 AAAAZQAAAP8AAAD/AAAAAAAAAAAAAABlAAAA/4WFhQEAAAD/AAAAQAAAAAAAAAD/AAAA2gAAAGUA
 AAAAj/kAAAZgAAADgAAAgAEAAOAHAADgBwAAwAMAAIABAACAAQAAAAEAAAAAAAAAAAAAAAAAAAPA
 AACH4QAAzrMAAA==" rel="icon" type="image/x-icon" /><meta name="author" value="Francis Grizzly Smit (grizzly@smit.id.au)" />
-<meta name="version" value="v0.1.4" />
+<meta name="version" value="v0.1.5" />
 <style>.comment {
   color: #666; }
 
@@ -595,7 +595,7 @@ footer {
  <tr class="toc-level-3"><td class="toc-text"><a href="#get-modern-emca262-flags(…)">get-modern-emca262-flags(…)</a></td></tr>
  <tr class="toc-level-3"><td class="toc-text"><a href="#get-old-emca262-flags(…)">get-old-emca262-flags(…)</a></td></tr>
 </table></div>
-</nav><div id="RegexUtils"></div><div class="subtitle"><p>A Raku module that provides helpers for Regex stuff both Perl5 and EMCA262Regex</p></div><div class="pod-body"><section name="___top"><h2 id="Table_of_Contents"><a href="#___top" class="u" title="go to top of document">Table of Contents</a></h2>
+</nav><div id="RegexUtils"></div><div class="subtitle"><p>A Raku class/module that provides helpers for Regex stuff both Perl5 and EMCA262Regex</p></div><div class="pod-body"><section name="___top"><h2 id="Table_of_Contents"><a href="#___top" class="u" title="go to top of document">Table of Contents</a></h2>
 <ul>
 <li><p><a href="#name">NAME</a></p></li>
 <li><p><a href="#author">AUTHOR</a></p></li>
@@ -633,7 +633,7 @@ footer {
 <p>LGPL V3.0+ <a href="https://github.com/grizzlysmit/RegexUtils/blob/main/LICENSE">LICENSE</a></p>
 </section>
 <h1 id="Introduction"><a href="#RegexUtils" class="u" title="go to top of document">Introduction</a></h1>
-<p>A <strong>Raku</strong> module that provides helpers for <strong><code>Regex</code></strong> stuff both <strong><code>Perl5</code></strong> and <strong><code>EMCA262Regex</code></strong>.</p><p><a href="#table-of-contents">Top of Document</a></p><h2 id="Motivations"><a href="#RegexUtils" class="u" title="go to top of document">Motivations</a></h2>
+<p>A <strong>Raku</strong> class/module that provides helpers for <strong><code>Regex</code></strong> stuff both <strong><code>Perl5</code></strong> and <strong><code>EMCA262Regex</code></strong>.</p><p><a href="#table-of-contents">Top of Document</a></p><h2 id="Motivations"><a href="#RegexUtils" class="u" title="go to top of document">Motivations</a></h2>
 <p>I have a program which exists as a <strong><code>Mod_Perl</code></strong> web program,and a <strong>Raku</strong> command line version. The <strong><code>Mod_Perl</code></strong> version also uses <strong>JavaScript</strong> and &lt;JavaScript/EMCA&gt; regexes I found that there was an all most perfect solution for the use of these regexes in the <strong><code>EMCA262Regex</code></strong> module, but I still needed to convert the strings to regexes as I wanted to add options, <strong><code>RegexUtils::CreateEMCA262Regex</code></strong> is my solution to this problem I then added <strong><code>RegexUtils::CreatePerlRegex</code></strong> for doing the same for <strong>Perl5</strong> regexes.</p><p><a href="#able-of-contents">Top of Document</a></p><h2 id="Grammars"><a href="#RegexUtils" class="u" title="go to top of document">Grammars</a></h2>
 </section><section name="pod"><h3 id="grammar_FlagsPerl5Modern_&amp;_action_class_FlagsPerl5ModernActions"><a href="#RegexUtils" class="u" title="go to top of document">grammar FlagsPerl5Modern &amp; action class FlagsPerl5ModernActions</a></h3>
 <p>Support for using a limited range of flags for use with Perl 5 style regexes, using <strong>Raku's</strong> style of regex flags.</p><pre class="pod-block-code">grammar FlagsPerl5Modern {
@@ -810,7 +810,7 @@ False
 } # method get-old-emca262-flags(Str:D $flags --&gt; Str:D) #
 
 </pre><p><a href="#table-of-contents">Top of Document</a></p></section>		</div>
-</div><footer><div>Rendered from <span class="path">UNNAMED</span></div><div>at <span class="time">2023-12-24T09:40:53Z</span></div></footer>
+</div><footer><div>Rendered from <span class="path">UNNAMED</span></div><div>at <span class="time">2023-12-24T09:46:18Z</span></div></footer>
 	</body>
 </html>
 
