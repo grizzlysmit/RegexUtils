@@ -1,0 +1,114 @@
+.pc
+.TH RegexUtils.rakumod 1 2023-12-24
+.SS Table of Contents
+.IP \(bu 2m
+NAME [#name]
+.IP \(bu 2m
+AUTHOR [#author]
+.IP \(bu 2m
+VERSION [#version]
+.IP \(bu 2m
+TITLE [#title]
+.IP \(bu 2m
+SUBTITLE [#subtitle]
+.IP \(bu 2m
+COPYRIGHT [#copyright]
+.IP \(bu 2m
+Introduction [#introduction]
+.RS 2n
+.IP \(bu 2m
+Motivations [#motivations]
+.RE
+.IP \(bu 2m
+Introduction [#introduction]
+.IP \(bu 2m
+Introduction [#introduction]
+.IP \(bu 2m
+CreatePerlRegex(…) [#createperlregex]
+.IP \(bu 2m
+CreateEMCA262Regex(…) [#createemca262regex]
+.SH "NAME"
+Gzz::Text::Utils 
+.SH "AUTHOR"
+Francis Grizzly Smit (grizzly@smit\&.id\&.au)
+.SH "VERSION"
+v0\&.1\&.4
+.SH "TITLE"
+RegexUtils
+.SH "SUBTITLE"
+A Raku module that provides helpers for Regex stuff both Perl5 and EMCA262Regex
+.SH "COPYRIGHT"
+LGPL V3\&.0+ LICENSE [https://github.com/grizzlysmit/RegexUtils/blob/main/LICENSE]
+.SH Introduction
+
+A \fBRaku\fR module that provides helpers for \fBRegex\fR stuff both \fBPerl5\fR and \fBEMCA262Regex\fR\&.
+
+Top of Document [#table-of-contents]
+.SS Motivations
+
+I have a program which exists as a \fBMod_Perl\fR web program,and a \fBRaku\fR command line version\&. The \fBMod_Perl\fR version also uses \fBJavaScript\fR and <JavaScript/EMCA> regexes I found that there was an all most perfect solution for the use of these regexes in the \fBEMCA262Regex\fR module, but I still needed to convert the strings to regexes as I wanted to add options, \fBRegexUtils::CreateEMCA262Regex\fR is my solution to this problem I then added \fBRegexUtils::CreatePerlRegex\fR for doing the same for \fBPerl5\fR regexes\&.
+
+Top of Document [#able-of-contents]
+.SS CreatePerlRegex(…)
+
+Creates a Perl5 regex from a string with some options suported\&.
+
+\fBNote:\fR not all raku flags are supported due to diffrences between the flags in the two languages\&.
+
+Here is some exaple use\&.
+
+.RS 4m
+.EX
+[0] > use RegexUtils;
+Nil
+[1] > my $regex\-perl5 = RegexUtils\&.CreatePerlRegex('^fo+\n$', ':ignorecase');
+rx:Perl5:ignorecase/^fo+\n$/
+[2] > so 'Fooo' ~~ $regex\-perl5;
+False
+[3] > so "Fooo\n" ~~ $regex\-perl5;
+True
+[4] > say $regex\-perl5;
+rx:Perl5:ignorecase/^fo+\n$/
+
+
+.EE
+.RE
+.SS CreateEMCA262Regex(…)
+
+Creates a regex from a string containing a EMCA262Regex with some options suported\&.
+
+\fBCreateEMCA262Regex\fR converts a \fBEMCA262 Regex\fR to a raku one\&. using the EMCA262Regex [https://modules.raku.org/dist/ECMA262Regex:zef:zef:jnthn] package and applies flags to it\&.
+
+Here is some exaple use\&.
+
+.RS 4m
+.EX
+[0] > use RegexUtils;
+Nil
+[1] > my $regex\-emca = RegexUtils\&.CreateEMCA262Regex('^[f][o]+\n', ':ignorecase');
+rx:ignorecase/^<[f]><[o]>+\n/
+[2] > so "Fooo\n" ~~ $regex\-emca;
+True
+[3] > so " Fooo\n" ~~ $regex\-emca;
+False
+
+
+.EE
+.RE
+.P
+\fBNote:\fR ignorecase only works for cases like below due to how \fBEMCA262Regex\fR translates the charater constants, this is a problem that needs solving\&.
+
+e\&.g\&. 
+
+.RS 4m
+.EX
+[0] > use RegexUtils;
+Nil
+[1] > my $regex\-emca = RegexUtils\&.CreateEMCA262Regex('^fo+\n', ':ignorecase');
+rx:ignorecase/^\x66\x6F+\n/
+[2] > so "Fooo\n" ~~ $regex\-emca;
+False
+
+
+.EE
+.RE
