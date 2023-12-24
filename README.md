@@ -302,6 +302,8 @@ method get-old-perl5-flags(Str:D $flags --> Str:D) {
 } # method get-old-perl5-flags(Str:D $flags --> Str:D) #
 ```
 
+[Top of Document](#table-of-contents)
+
 ### get-modern-emca262-flags(…)
 
 Filter modern flags for use with **EMCA262Regex's**.
@@ -331,4 +333,6 @@ method get-old-emca262-flags(Str:D $flags --> Str:D) {
     return $match.made;
 } # method get-old-emca262-flags(Str:D $flags --> Str:D) #
 ```
+
+[Top of Document](#table-of-contents)
 

@@ -496,6 +496,8 @@ method get-old-perl5-flags(Str:D $flags --> Str:D) {
 
 =end code
 
+L<Top of Document|#table-of-contents>
+
 =head3 get-modern-emca262-flags(…)
 
 Filter modern flags for use with B<EMCA262Regex's>.
@@ -529,5 +531,7 @@ method get-old-emca262-flags(Str:D $flags --> Str:D) {
 } # method get-old-emca262-flags(Str:D $flags --> Str:D) #
 
 =end code
+
+L<Top of Document|#table-of-contents>
 
 =end pod
