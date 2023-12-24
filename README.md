@@ -1,18 +1,81 @@
+Table of Contents
+-----------------
+
+  * [NAME](#name)
+
+  * [AUTHOR](#author)
+
+  * [VERSION](#version)
+
+  * [TITLE](#title)
+
+  * [SUBTITLE](#subtitle)
+
+  * [COPYRIGHT](#copyright)
+
+  * [Introduction](#introduction)
+
+    * [Motivations](#motivations)
+
+  * [Introduction](#introduction)
+
+  * [Introduction](#introduction)
+
+  * [CreatePerlRegex(…)](#createperlregex)
+
+  * [CreateEMCA262Regex(…)](#createemca262regex)
+
+NAME
+====
+
+Gzz::Text::Utils 
+
+AUTHOR
+======
+
+Francis Grizzly Smit (grizzly@smit.id.au)
+
+VERSION
+=======
+
+v0.1.4
+
+TITLE
+=====
+
 RegexUtils
+
+SUBTITLE
+========
+
+A Raku module that provides helpers for Regex stuff both Perl5 and EMCA262Regex
+
+COPYRIGHT
+=========
+
+LGPL V3.0+ [LICENSE](https://github.com/grizzlysmit/RegexUtils/blob/main/LICENSE)
+
+Introduction
 ============
 
-1. [CreatePerlRegex](https://github.com/grizzlysmit/RegexUtils#method-createperlregexstrd-rg-strd-flags-is-copy--)
-1. [CreateEMCA262Regex](https://github.com/grizzlysmit/RegexUtils#method-createemca262regexstrd-str-strd-flags-is-copy------regexd)
-1. [get-modern-perl5-flags](https://github.com/grizzlysmit/RegexUtils#method-get-modern-perl5-flagsstrd-flags----strd)
-1. [get-old-perl5-flags](https://github.com/grizzlysmit/RegexUtils#method-get-old-perl5-flagsstrd-flags----strd)
-1. [get-modern-emca262-flags](https://github.com/grizzlysmit/RegexUtils#method-get-modern-emca262-flagsstrd-flags----strd)
-1. [get-old-emca262-flags](https://github.com/grizzlysmit/RegexUtils#method-get-old-emca262-flagsstrd-flags----strd)
+A **Raku** module that provides helpers for **`Regex`** stuff both **`Perl5`** and **`EMCA262Regex`**.
 
-## method CreatePerlRegex(Str:D $rg, Str:D $flags is copy = '')
+[Top of Document](#table-of-contents)
 
-CreatePerlRegex constructs a Perl5 regex from a string with the required flags.
+Motivations
+-----------
 
-**Note:** not all raku flags are supported due to diffrences between the flags in the two languages 
+I have a program which exists as a **`Mod_Perl`** web program,and a **Raku** command line version. The **`Mod_Perl`** version also uses **JavaScript** and <JavaScript/EMCA> regexes I found that there was an all most perfect solution for the use of these regexes in the **`EMCA262Regex`** module, but I still needed to convert the strings to regexes as I wanted to add options, **`RegexUtils::CreateEMCA262Regex`** is my solution to this problem I then added **`RegexUtils::CreatePerlRegex`** for doing the same for **Perl5** regexes.
+
+[Top of Document](#able-of-contents)
+
+### CreatePerlRegex(…)
+
+Creates a Perl5 regex from a string with some options suported.
+
+**Note:** not all raku flags are supported due to diffrences between the flags in the two languages.
+
+Here is some exaple use.
 
 ```raku
 [0] > use RegexUtils;
@@ -27,9 +90,13 @@ True
 rx:Perl5:ignorecase/^fo+\n$/
 ```
 
-## method CreateEMCA262Regex(Str:D $str, Str:D $flags is copy = '' --> Regex:D)
+### CreateEMCA262Regex(…)
 
-CreateEMCA262Regex converts a EMCA262 Regex to a raku one. using the [EMCA262Regex](https://modules.raku.org/dist/ECMA262Regex:zef:zef:jnthn) package  and applies flags to it.
+Creates a regex from a string containing a EMCA262Regex with some options suported.
+
+**`CreateEMCA262Regex`** converts a **EMCA262 Regex** to a raku one. using the [EMCA262Regex](https://modules.raku.org/dist/ECMA262Regex:zef:zef:jnthn) package and applies flags to it.
+
+Here is some exaple use.
 
 ```raku
 [0] > use RegexUtils;
@@ -42,11 +109,11 @@ True
 False
 ```
 
-**Note:** `ignorecase` only works for cases  like below due to how EMCA262Regex translates the charater constants, this is a problem that needs solving.
+**Note:** `ignorecase` only works for cases like below due to how **`EMCA262Regex`** translates the charater constants, this is a problem that needs solving.
 
 e.g. 
 
-```raku 
+```raku
 [0] > use RegexUtils;
 Nil
 [1] > my $regex-emca = RegexUtils.CreateEMCA262Regex('^fo+\n', ':ignorecase');
@@ -55,10 +122,3 @@ rx:ignorecase/^\x66\x6F+\n/
 False
 ```
 
-## method get-modern-perl5-flags(Str:D $flags --> Str:D)
-
-## method get-old-perl5-flags(Str:D $flags --> Str:D)
-
-## method get-modern-emca262-flags(Str:D $flags --> Str:D)
-
-## method get-old-emca262-flags(Str:D $flags --> Str:D) 

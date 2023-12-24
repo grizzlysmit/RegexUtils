@@ -1,4 +1,4 @@
-unit module RegexUtils:ver<0.1.4>:auth<Francis Grizzly Smit (grizzlysmit@smit.id.au)>;
+class RegexUtils:ver<0.1.4>:auth<Francis Grizzly Smit (grizzlysmit@smit.id.au)> {
 
 =begin pod
 
@@ -18,171 +18,139 @@ Table of  Contents
 =item2 L<Motivations|#motivations>
 =item1 L<Introduction|#introduction>
 =item1 L<Introduction|#introduction>
-=item1 L<Introduction|#introduction>
-=item1 L<Introduction|#introduction>
+=item1 L<CreatePerlRegex(…)|#createperlregex>
+=item1 L<CreateEMCA262Regex(…)|#createemca262regex>
 
 =NAME Gzz::Text::Utils 
 =AUTHOR Francis Grizzly Smit (grizzly@smit.id.au)
-=VERSION v0.1.18
-=TITLE Gzz::Text::Utils
-=SUBTITLE A Raku module to provide text formatting services to Raku programs.
+=VERSION v0.1.4
+=TITLE RegexUtils
+=SUBTITLE A Raku module that provides helpers for Regex stuff both Perl5 and EMCA262Regex
 
 =COPYRIGHT
 LGPL V3.0+ L<LICENSE|https://github.com/grizzlysmit/RegexUtils/blob/main/LICENSE>
 
 =head1 Introduction
 
-A Raku module to provide text formatting services to Raku programs.
-
-Including a sprintf front-end Sprintf that copes better with Ansi highlighted
-text and implements B<C<%U>> and does octal as B<C<0o123>> or B<C<0O123>> if
-you choose B<C<%O>> as I hate ambiguity like B<C<0123>> is it an int with
-leading zeros or an octal number.
-Also there is B<C<%N>> for a new line and B<C<%T>> for a tab helpful when
-you want to use single quotes to stop the B«<num> C«$»» specs needing back slashes.
-
-And a B<C<printf>> alike B<C<Printf>>.
-
-Also it does centring and there is a B<C<max-width>> field in the B<C<%>> spec i.e. B<C<%*.*.*E>>, 
-and more.
+A B<Raku> module that provides helpers for B<C<Regex>> stuff both B<C<Perl5>> and B<C<EMCA262Regex>>.
 
 L<Top of Document|#table-of-contents>
 
 =head2 Motivations
 
-When you embed formatting information into your text such as B<bold>, I<italics>, etc ... and B<colours>
-standard text formatting will not work e.g. printf, sprintf etc also those functions don't do centring.
-
-Another important thing to note is that even these functions will fail if you include such formatting
-in the B<text> field unless you supply a copy of the text with out the formatting characters in it 
-in the B<:ref> field i.e. B<C<left($formatted-text, $width, :ref($unformatted-text))>> or 
-B<C<text($formatted-text, $width, :$ref)>> if the reference text is in a variable called B<C<$ref>>
-or you can write it as B«C«left($formatted-text, $width, ref => $unformatted-text)»»
+I have a program which exists as a B<C<Mod_Perl>> web program,and a B<Raku> command line version.
+The B<C<Mod_Perl>> version also uses B<JavaScript> and <JavaScript/EMCA> regexes I found that there 
+was an all most perfect solution for the use of these regexes in the B<C<EMCA262Regex>> module, but
+I still needed to convert the strings to regexes as I wanted to add options, 
+B<C<RegexUtils::CreateEMCA262Regex>> is my solution to this problem I then added
+B<C<RegexUtils::CreatePerlRegex>> for doing the same for B<Perl5> regexes.
 
 L<Top of Document|#able-of-contents>
-
-=head3 Update
-
-Fixed the proto type of B<C<left>> etc is now 
-
-=begin code :lang<raku>
-sub left(Str:D $text, Int:D $width is copy, Str:D $fill = ' ',
-            :&number-of-chars:(Int:D, Int:D --> Bool:D) = &left-global-number-of-chars,
-               Str:D :$ref = strip-ansi($text), Int:D
-                                :$max-width = 0, Str:D :$ellipsis = '' --> Str) is export 
-=end code
-
-Where B«C«sub strip-ansi(Str:D $text --> Str:D) is export»» is my new function for striping out ANSI escape sequences so we don't need to supply 
-B<C<:$ref>> unless it contains codes that B«C«sub strip-ansi(Str:D $text --> Str:D) is export»» cannot strip out, if so I would like to know so
-I can update it to cope with these new codes.
-
-L<Top of Document|#table-of-contents>
 
 =end pod
 
 use ECMA262Regex;
 
-grammar RegexUtils::FlagsPerl5Modern {
-    token TOP   { <flags> }
-    token flags { <flag>+ % ':' }
-    token flag  {  \w+ }
-}
-
-class RegexUtils::FlagsPerl5ModernActions {
-    method TOP($/) { make $<flags>.made }
-    method flag($/) {
-        given ~$/ {
-            when 'i'          {
-                                  make ':ignorecase';
-                              }
-            when 'ignorecase' {
-                                  make ':ignorecase';
-                              }
-            when 'm'          { make ':ignoremark'; }
-            when 'ignoremark' { make ':ignoremark'; }
-            when 's'          { make ':sigspace';   }
-            when 'sigspace'   { make ':sigspace';   }
-            default:          { make '';            }
-        } 
+    grammar FlagsPerl5Modern {
+        token TOP   { <flags> }
+        token flags { <flag>+ % ':' }
+        token flag  {  \w+ }
     }
-    method flags($/) {
-        my $made-elts = $<flag>».made.join('');
-        make $made-elts;
-    }
-}
 
-grammar RegexUtils::FlagsEMCA262Modern {
-    token TOP   { <flags> }
-    token flags { <flag>+ % ':' }
-    token flag  {  \w+ }
-}
-
-class RegexUtils::FlagsEMCA262ModernActions {
-    method TOP($/) { make $<flags>.made }
-    method flag($/) {
-        given ~$/ {
-            when 'i'          {
-                                  make ':ignorecase';
-                              }
-            when 'ignorecase' {
-                                  make ':ignorecase';
-                              }
-            when 'g'          { make ':global';     }
-            when 'global'     { make ':global';     }
-            default:          { make '';            }
-        } 
-    }
-    method flags($/) {
-        my $made-elts = $<flag>».made.join('');
-        make $made-elts;
-    }
-}
-
-grammar RegexUtils::FlagsPerl5Old {
-    token TOP   { <flags> }
-    token flags { <flag>+ % <ww> }
-    token flag  { \w }
-}
-
-class RegexUtils::FlagsPerl5OldActions {
-    method TOP($/) { make $<flags>.made }
-    method flag($/) {
-        given ~$/ {
-            when 'i'          { make ':ignorecase'; }
-            when 'm'          { make ':ignoremark'; }
-            when 'g'          { make ':global';     }
-            when 'x'          { make ':sigspace';   }
-            default:          { make '';            }
+    class FlagsPerl5ModernActions {
+        method TOP($/) { make $<flags>.made }
+        method flag($/) {
+            given ~$/ {
+                when 'i'          {
+                                      make ':ignorecase';
+                                  }
+                when 'ignorecase' {
+                                      make ':ignorecase';
+                                  }
+                when 'm'          { make ':ignoremark'; }
+                when 'ignoremark' { make ':ignoremark'; }
+                when 's'          { make ':sigspace';   }
+                when 'sigspace'   { make ':sigspace';   }
+                default:          { make '';            }
+            } 
+        }
+        method flags($/) {
+            my $made-elts = $<flag>».made.join('');
+            make $made-elts;
         }
     }
-    method flags($/) {
-        my $made-elts = $/<flag>».made.join('');
-        make $made-elts;
+
+    grammar FlagsEMCA262Modern {
+        token TOP   { <flags> }
+        token flags { <flag>+ % ':' }
+        token flag  {  \w+ }
     }
-}
 
-grammar RegexUtils::FlagsEMCA262Old {
-    token TOP   { <flags> }
-    token flags { <flag>+ % <ww> }
-    token flag  { \w }
-}
-
-class RegexUtils::FlagsEMCA262OldActions {
-    method TOP($/) { make $<flags>.made }
-    method flag($/) {
-        given ~$/ {
-            when 'i'          { make ':ignorecase'; }
-            when 'g'          { make ':global';   }
-            default:          { make '';            }
+    class FlagsEMCA262ModernActions {
+        method TOP($/) { make $<flags>.made }
+        method flag($/) {
+            given ~$/ {
+                when 'i'          {
+                                      make ':ignorecase';
+                                  }
+                when 'ignorecase' {
+                                      make ':ignorecase';
+                                  }
+                when 'g'          { make ':global';     }
+                when 'global'     { make ':global';     }
+                default:          { make '';            }
+            } 
+        }
+        method flags($/) {
+            my $made-elts = $<flag>».made.join('');
+            make $made-elts;
         }
     }
-    method flags($/) {
-        my $made-elts = $/<flag>».made.join('');
-        make $made-elts;
-    }
-}
 
-class RegexUtils {
+    grammar FlagsPerl5Old {
+        token TOP   { <flags> }
+        token flags { <flag>+ % <ww> }
+        token flag  { \w }
+    }
+
+    class FlagsPerl5OldActions {
+        method TOP($/) { make $<flags>.made }
+        method flag($/) {
+            given ~$/ {
+                when 'i'          { make ':ignorecase'; }
+                when 'm'          { make ':ignoremark'; }
+                when 'g'          { make ':global';     }
+                when 'x'          { make ':sigspace';   }
+                default:          { make '';            }
+            }
+        }
+        method flags($/) {
+            my $made-elts = $/<flag>».made.join('');
+            make $made-elts;
+        }
+    }
+
+    grammar FlagsEMCA262Old {
+        token TOP   { <flags> }
+        token flags { <flag>+ % <ww> }
+        token flag  { \w }
+    }
+
+    class FlagsEMCA262OldActions {
+        method TOP($/) { make $<flags>.made }
+        method flag($/) {
+            given ~$/ {
+                when 'i'          { make ':ignorecase'; }
+                when 'g'          { make ':global';   }
+                default:          { make '';            }
+            }
+        }
+        method flags($/) {
+            my $made-elts = $/<flag>».made.join('');
+            make $made-elts;
+        }
+    }
+
 
     method get-modern-perl5-flags(Str:D $flags --> Str:D) {
         my $actions = RegexUtils::FlagsPerl5ModernActions;
@@ -209,7 +177,7 @@ class RegexUtils {
             die "invalid flags";
         }
         return $match.made;
-    } # method get-modern-perl5-flags(Str:D $flags --> Str:D) #
+    } # method get-modern-emca262-flags(Str:D $flags --> Str:D) #
 
     method get-old-emca262-flags(Str:D $flags --> Str:D) {
         my $actions = RegexUtils::FlagsEMCA262OldActions;
@@ -219,6 +187,34 @@ class RegexUtils {
         }
         return $match.made;
     } # method get-old-perl5-flags(Str:D $flags --> Str:D) #
+
+=begin pod
+
+=head3 CreatePerlRegex(…)
+
+Creates a Perl5 regex from a string with some options suported.
+
+B<Note:> not all raku flags are supported due to diffrences
+between the flags in the two languages.
+
+Here is some exaple use.
+
+=begin code :lang<raku>
+
+[0] > use RegexUtils;
+Nil
+[1] > my $regex-perl5 = RegexUtils.CreatePerlRegex('^fo+\n$', ':ignorecase');
+rx:Perl5:ignorecase/^fo+\n$/
+[2] > so 'Fooo' ~~ $regex-perl5;
+False
+[3] > so "Fooo\n" ~~ $regex-perl5;
+True
+[4] > say $regex-perl5;
+rx:Perl5:ignorecase/^fo+\n$/
+
+=end code
+
+=end pod
 
     method CreatePerlRegex(Str:D $rg, Str:D $flags is copy = '') {
         $flags .=trim;
@@ -234,6 +230,50 @@ class RegexUtils {
         my Regex:D $rx = EVAL "rx:Perl5$flags/$rg/";
         return $rx;
     }
+
+=begin pod
+
+=head3 CreateEMCA262Regex(…)
+
+Creates a regex from a string containing a EMCA262Regex with some options suported.
+
+B<C<CreateEMCA262Regex>> converts a B<EMCA262 Regex> to a raku one. using the
+L<EMCA262Regex|https://modules.raku.org/dist/ECMA262Regex:zef:zef:jnthn> package 
+and applies flags to it.
+
+Here is some exaple use.
+
+=begin code :lang<raku>
+
+[0] > use RegexUtils;
+Nil
+[1] > my $regex-emca = RegexUtils.CreateEMCA262Regex('^[f][o]+\n', ':ignorecase');
+rx:ignorecase/^<[f]><[o]>+\n/
+[2] > so "Fooo\n" ~~ $regex-emca;
+True
+[3] > so " Fooo\n" ~~ $regex-emca;
+False
+
+=end code
+
+B<Note:> C<ignorecase> only works for cases  like below due to how B<C<EMCA262Regex>>
+translates the charater constants, this is a problem that needs solving.
+
+e.g. 
+
+=begin code :lang<raku>
+
+[0] > use RegexUtils;
+Nil
+[1] > my $regex-emca = RegexUtils.CreateEMCA262Regex('^fo+\n', ':ignorecase');
+rx:ignorecase/^\x66\x6F+\n/
+[2] > so "Fooo\n" ~~ $regex-emca;
+False
+
+=end code
+
+=end pod
+
     method CreateEMCA262Regex(Str:D $str, Str:D $flags is copy = '' --> Regex:D) {
         $flags .=trim;
         if $flags.starts-with(':') {

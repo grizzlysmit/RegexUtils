@@ -1,6 +1,6 @@
 {
     "name" : "RegexUtils",
-    "description" : "Module that provides helpers for Regex stuff both Perl5 and EMCA262Regex",
+    "description" : "A Raku module that provides helpers for Regex stuff both Perl5 and EMCA262Regex",
     "perl" : "6.d",
     "license" : "GPL-v3.0",
     "authors" : [
