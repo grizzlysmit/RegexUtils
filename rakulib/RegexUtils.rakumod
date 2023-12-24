@@ -101,6 +101,8 @@ class FlagsPerl5ModernActions {
 
 =end code
 
+L<Top of Document|#table-of-contents>
+
 =end pod
 
     grammar FlagsPerl5Modern {
@@ -170,6 +172,8 @@ class FlagsEMCA262ModernActions {
 
 =end code
 
+L<Top of Document|#table-of-contents>
+
 =end pod
 
     grammar FlagsEMCA262Modern {
@@ -233,6 +237,8 @@ class FlagsPerl5OldActions {
 
 =end code
 
+L<Top of Document|#table-of-contents>
+
 =end pod
 
     grammar FlagsPerl5Old {
@@ -288,6 +294,8 @@ class FlagsEMCA262OldActions {
 }
 
 =end code
+
+L<Top of Document|#table-of-contents>
 
 =end pod
 

@@ -12,9 +12,9 @@
     "provides" : {
         "RegexUtils" : "lib/RegexUtils.rakumod"
     },
-    "source-url" : "git@github.com:grizzlysmit/RegexUtils.git",
+    "source-url" : "https://github.com/grizzlysmit/RegexUtils.git",
     "support" : {
-        "source" : "git@github.com:grizzlysmit/RegexUtils.git",
+        "source" : "https://github.com/grizzlysmit/RegexUtils.git",
         "email" : "grizzly@smit.id.au",
         "bugtracker": "https://github.com/grizzlysmit/RegexUtils/issues"
     },

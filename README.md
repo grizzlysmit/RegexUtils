@@ -123,6 +123,8 @@ class FlagsPerl5ModernActions {
 }
 ```
 
+[Top of Document](#table-of-contents)
+
 ### grammar FlagsEMCA262Modern & action class FlagsEMCA262ModernActions
 
 A grammar and action pair to parse modern style **Raku** flags and get rid of ones that do not fit with ECMA regexes.
@@ -156,6 +158,8 @@ class FlagsEMCA262ModernActions {
 }
 ```
 
+[Top of Document](#table-of-contents)
+
 ### grammar FlagsPerl5Old & action class FlagsPerl5OldActions
 
 A grammar and action pair to parse old style **Perl** flags into modern **Raku** flags.
@@ -185,6 +189,8 @@ class FlagsPerl5OldActions {
 }
 ```
 
+[Top of Document](#table-of-contents)
+
 ### grammar FlagsEMCA262Old & action class FlagsEMCA262OldActions
 
 A grammar and action pair to convert **ECMA262Regex** flags into **Raku** ones
@@ -211,6 +217,8 @@ class FlagsEMCA262OldActions {
     }
 }
 ```
+
+[Top of Document](#table-of-contents)
 
 Methods
 -------
