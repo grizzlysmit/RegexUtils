@@ -17,13 +17,29 @@ Table of Contents
 
     * [Motivations](#motivations)
 
-  * [Introduction](#introduction)
+  * [Grammars](#grammars)
 
-  * [Introduction](#introduction)
+    * [grammar FlagsPerl5Modern & action class FlagsPerl5ModernActions](#grammar-flagsperl5modern--action-class-flagsperl5modernactions)
 
-  * [CreatePerlRegex(…)](#createperlregex)
+    * [grammar FlagsEMCA262Modern & action class FlagsEMCA262ModernActions](#grammar-flagsemca262modern--action-class-flagsemca262modernactions)
 
-  * [CreateEMCA262Regex(…)](#createemca262regex)
+    * [grammar FlagsPerl5Old & action class FlagsPerl5OldActions](#grammar-flagsperl5old--action-class-flagsperl5oldactions)
+
+    * [grammar FlagsEMCA262Old & action class FlagsEMCA262OldActions](#grammar-flagsemca262old--action-class-flagsemca262oldactions)
+
+  * [Methods](#methods)
+
+    * [CreatePerlRegex(…)](#createperlregex)
+
+    * [CreateEMCA262Regex(…)](#createemca262regex)
+
+    * [get-modern-perl5-flags(…)](#get-modern-perl5-flags)
+
+    * [get-old-perl5-flags(…)](#get-old-perl5-flags)
+
+    * [get-modern-emca262-flags(…)](#get-modern-emca262-flags)
+
+    * [get-old-emca262-flags(…)](#get-old-emca262-flags)
 
 NAME
 ====
@@ -69,6 +85,136 @@ I have a program which exists as a **`Mod_Perl`** web program,and a **Raku** com
 
 [Top of Document](#able-of-contents)
 
+Grammars
+--------
+
+### grammar FlagsPerl5Modern & action class FlagsPerl5ModernActions
+
+Support for using a limited range of flags for use with Perl 5 style regexes, using **Raku's** style of regex flags.
+
+```raku
+grammar FlagsPerl5Modern {
+    token TOP   { <flags> }
+    token flags { <flag>+ % ':' }
+    token flag  {  \w+ }
+}
+
+class FlagsPerl5ModernActions {
+    method TOP($/) { make $<flags>.made }
+    method flag($/) {
+        given ~$/ {
+            when 'i'          {
+                                  make ':ignorecase';
+                              }
+            when 'ignorecase' {
+                                  make ':ignorecase';
+                              }
+            when 'm'          { make ':ignoremark'; }
+            when 'ignoremark' { make ':ignoremark'; }
+            when 's'          { make ':sigspace';   }
+            when 'sigspace'   { make ':sigspace';   }
+            default:          { make '';            }
+        } 
+    }
+    method flags($/) {
+        my $made-elts = $<flag>».made.join('');
+        make $made-elts;
+    }
+}
+```
+
+### grammar FlagsEMCA262Modern & action class FlagsEMCA262ModernActions
+
+A grammar and action pair to parse modern style **Raku** flags and get rid of ones that do not fit with ECMA regexes.
+
+```raku
+grammar FlagsEMCA262Modern {
+    token TOP   { <flags> }
+    token flags { <flag>+ % ':' }
+    token flag  {  \w+ }
+}
+
+class FlagsEMCA262ModernActions {
+    method TOP($/) { make $<flags>.made }
+    method flag($/) {
+        given ~$/ {
+            when 'i'          {
+                                  make ':ignorecase';
+                              }
+            when 'ignorecase' {
+                                  make ':ignorecase';
+                              }
+            when 'g'          { make ':global';     }
+            when 'global'     { make ':global';     }
+            default:          { make '';            }
+        } 
+    }
+    method flags($/) {
+        my $made-elts = $<flag>».made.join('');
+        make $made-elts;
+    }
+}
+```
+
+### grammar FlagsPerl5Old & action class FlagsPerl5OldActions
+
+A grammar and action pair to parse old style **Perl** flags into modern **Raku** flags.
+
+```raku
+grammar FlagsPerl5Old {
+    token TOP   { <flags> }
+    token flags { <flag>+ % <ww> }
+    token flag  { \w }
+}
+
+class FlagsPerl5OldActions {
+    method TOP($/) { make $<flags>.made }
+    method flag($/) {
+        given ~$/ {
+            when 'i'          { make ':ignorecase'; }
+            when 'm'          { make ':ignoremark'; }
+            when 'g'          { make ':global';     }
+            when 'x'          { make ':sigspace';   }
+            default:          { make '';            }
+        }
+    }
+    method flags($/) {
+        my $made-elts = $/<flag>».made.join('');
+        make $made-elts;
+    }
+}
+```
+
+### grammar FlagsEMCA262Old & action class FlagsEMCA262OldActions
+
+A grammar and action pair to convert **ECMA262Regex** flags into **Raku** ones
+
+```raku
+grammar FlagsEMCA262Old {
+    token TOP   { <flags> }
+    token flags { <flag>+ % <ww> }
+    token flag  { \w }
+}
+
+class FlagsEMCA262OldActions {
+    method TOP($/) { make $<flags>.made }
+    method flag($/) {
+        given ~$/ {
+            when 'i'          { make ':ignorecase'; }
+            when 'g'          { make ':global';   }
+            default:          { make '';            }
+        }
+    }
+    method flags($/) {
+        my $made-elts = $/<flag>».made.join('');
+        make $made-elts;
+    }
+}
+```
+
+Methods
+-------
+
 ### CreatePerlRegex(…)
 
 Creates a Perl5 regex from a string with some options suported.
@@ -89,6 +235,8 @@ True
 [4] > say $regex-perl5;
 rx:Perl5:ignorecase/^fo+\n$/
 ```
+
+[Top of Document](#table-of-contents)
 
 ### CreateEMCA262Regex(…)
 
@@ -120,5 +268,67 @@ Nil
 rx:ignorecase/^\x66\x6F+\n/
 [2] > so "Fooo\n" ~~ $regex-emca;
 False
+```
+
+[Top of Document](#table-of-contents)
+
+### get-modern-perl5-flags(…)
+
+A method to apply the **`RegexUtils::FlagsPerl5Modern`** grammar to a string, in order to filter flags.
+
+```raku
+method get-modern-perl5-flags(Str:D $flags --> Str:D) {
+    my $actions = RegexUtils::FlagsPerl5ModernActions;
+    my $match   = RegexUtils::FlagsPerl5Modern.parse($flags.substr(1), :$actions);
+    without $match {
+        die "invalid flags";
+    }
+    return $match.made;
+} # method get-modern-perl5-flags(Str:D $flags --> Str:D) #
+```
+
+### get-old-perl5-flags(…)
+
+Translate old style **Perl** flags into **Raku** ones using the grammar action pair
+
+```raku
+method get-old-perl5-flags(Str:D $flags --> Str:D) {
+    my $actions = RegexUtils::FlagsPerl5OldActions;
+    my $match   = RegexUtils::FlagsPerl5Old.parse($flags, :$actions);
+    without $match {
+        die "invalid flags $flags";
+    }
+    return $match.made;
+} # method get-old-perl5-flags(Str:D $flags --> Str:D) #
+```
+
+### get-modern-emca262-flags(…)
+
+Filter modern flags for use with **EMCA262Regex's**.
+
+```raku
+method get-modern-emca262-flags(Str:D $flags --> Str:D) {
+    my $actions = RegexUtils::FlagsEMCA262ModernActions;
+    my $match   = RegexUtils::FlagsEMCA262Modern.parse($flags.substr(1), :$actions);
+    without $match {
+        die "invalid flags";
+    }
+    return $match.made;
+} # method get-modern-emca262-flags(Str:D $flags --> Str:D) #
+```
+
+### get-old-emca262-flags(…)
+
+Translate old style **EMCA262Regex** flags into **Raku** ones.
+
+```raku
+method get-old-emca262-flags(Str:D $flags --> Str:D) {
+    my $actions = RegexUtils::FlagsEMCA262OldActions;
+    my $match   = RegexUtils::FlagsEMCA262Old.parse($flags, :$actions);
+    without $match {
+        die "invalid flags $flags";
+    }
+    return $match.made;
+} # method get-old-emca262-flags(Str:D $flags --> Str:D) #
 ```
 

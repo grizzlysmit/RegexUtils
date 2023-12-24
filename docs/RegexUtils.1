@@ -20,13 +20,49 @@ Introduction [#introduction]
 Motivations [#motivations]
 .RE
 .IP \(bu 2m
-Introduction [#introduction]
+Grammars [#grammars]
+.RS 2n
 .IP \(bu 2m
-Introduction [#introduction]
+grammar FlagsPerl5Modern & action class FlagsPerl5ModernActions [#grammar-flagsperl5modern--action-class-flagsperl5modernactions]
+.RE
+.RS 2n
+.IP \(bu 2m
+grammar FlagsEMCA262Modern & action class FlagsEMCA262ModernActions [#grammar-flagsemca262modern--action-class-flagsemca262modernactions]
+.RE
+.RS 2n
+.IP \(bu 2m
+grammar FlagsPerl5Old & action class FlagsPerl5OldActions [#grammar-flagsperl5old--action-class-flagsperl5oldactions]
+.RE
+.RS 2n
+.IP \(bu 2m
+grammar FlagsEMCA262Old & action class FlagsEMCA262OldActions [#grammar-flagsemca262old--action-class-flagsemca262oldactions]
+.RE
+.IP \(bu 2m
+Methods [#methods]
+.RS 2n
 .IP \(bu 2m
 CreatePerlRegex(…) [#createperlregex]
+.RE
+.RS 2n
 .IP \(bu 2m
 CreateEMCA262Regex(…) [#createemca262regex]
+.RE
+.RS 2n
+.IP \(bu 2m
+get\-modern\-perl5\-flags(…) [#get-modern-perl5-flags]
+.RE
+.RS 2n
+.IP \(bu 2m
+get\-old\-perl5\-flags(…) [#get-old-perl5-flags]
+.RE
+.RS 2n
+.IP \(bu 2m
+get\-modern\-emca262\-flags(…) [#get-modern-emca262-flags]
+.RE
+.RS 2n
+.IP \(bu 2m
+get\-old\-emca262\-flags(…) [#get-old-emca262-flags]
+.RE
 .SH "NAME"
 Gzz::Text::Utils 
 .SH "AUTHOR"
@@ -49,6 +85,144 @@ Top of Document [#table-of-contents]
 I have a program which exists as a \fBMod_Perl\fR web program,and a \fBRaku\fR command line version\&. The \fBMod_Perl\fR version also uses \fBJavaScript\fR and <JavaScript/EMCA> regexes I found that there was an all most perfect solution for the use of these regexes in the \fBEMCA262Regex\fR module, but I still needed to convert the strings to regexes as I wanted to add options, \fBRegexUtils::CreateEMCA262Regex\fR is my solution to this problem I then added \fBRegexUtils::CreatePerlRegex\fR for doing the same for \fBPerl5\fR regexes\&.
 
 Top of Document [#able-of-contents]
+.SS Grammars
+.SS grammar FlagsPerl5Modern & action class FlagsPerl5ModernActions
+
+Support for using a limited range of flags for use with Perl 5 style regexes, using \fBRaku's\fR style of regex flags\&.
+
+.RS 4m
+.EX
+grammar FlagsPerl5Modern {
+    token TOP   { <flags> }
+    token flags { <flag>+ % ':' }
+    token flag  {  \w+ }
+}
+
+class FlagsPerl5ModernActions {
+    method TOP($/) { make $<flags>\&.made }
+    method flag($/) {
+        given ~$/ {
+            when 'i'          {
+                                  make ':ignorecase';
+                              }
+            when 'ignorecase' {
+                                  make ':ignorecase';
+                              }
+            when 'm'          { make ':ignoremark'; }
+            when 'ignoremark' { make ':ignoremark'; }
+            when 's'          { make ':sigspace';   }
+            when 'sigspace'   { make ':sigspace';   }
+            default:          { make '';            }
+        } 
+    }
+    method flags($/) {
+        my $made\-elts = $<flag>»\&.made\&.join('');
+        make $made\-elts;
+    }
+}
+
+
+.EE
+.RE
+.SS grammar FlagsEMCA262Modern & action class FlagsEMCA262ModernActions
+
+A grammar and action pair to parse modern style \fBRaku\fR flags and get rid of ones that do not fit with ECMA regexes\&.
+
+.RS 4m
+.EX
+grammar FlagsEMCA262Modern {
+    token TOP   { <flags> }
+    token flags { <flag>+ % ':' }
+    token flag  {  \w+ }
+}
+
+class FlagsEMCA262ModernActions {
+    method TOP($/) { make $<flags>\&.made }
+    method flag($/) {
+        given ~$/ {
+            when 'i'          {
+                                  make ':ignorecase';
+                              }
+            when 'ignorecase' {
+                                  make ':ignorecase';
+                              }
+            when 'g'          { make ':global';     }
+            when 'global'     { make ':global';     }
+            default:          { make '';            }
+        } 
+    }
+    method flags($/) {
+        my $made\-elts = $<flag>»\&.made\&.join('');
+        make $made\-elts;
+    }
+}
+
+
+.EE
+.RE
+.SS grammar FlagsPerl5Old & action class FlagsPerl5OldActions
+
+A grammar and action pair to parse old style \fBPerl\fR flags into modern \fBRaku\fR flags\&.
+
+.RS 4m
+.EX
+grammar FlagsPerl5Old {
+    token TOP   { <flags> }
+    token flags { <flag>+ % <ww> }
+    token flag  { \w }
+}
+
+class FlagsPerl5OldActions {
+    method TOP($/) { make $<flags>\&.made }
+    method flag($/) {
+        given ~$/ {
+            when 'i'          { make ':ignorecase'; }
+            when 'm'          { make ':ignoremark'; }
+            when 'g'          { make ':global';     }
+            when 'x'          { make ':sigspace';   }
+            default:          { make '';            }
+        }
+    }
+    method flags($/) {
+        my $made\-elts = $/<flag>»\&.made\&.join('');
+        make $made\-elts;
+    }
+}
+
+
+.EE
+.RE
+.SS grammar FlagsEMCA262Old & action class FlagsEMCA262OldActions
+
+A grammar and action pair to convert \fBECMA262Regex\fR flags into \fBRaku\fR ones
+
+.RS 4m
+.EX
+grammar FlagsEMCA262Old {
+    token TOP   { <flags> }
+    token flags { <flag>+ % <ww> }
+    token flag  { \w }
+}
+
+class FlagsEMCA262OldActions {
+    method TOP($/) { make $<flags>\&.made }
+    method flag($/) {
+        given ~$/ {
+            when 'i'          { make ':ignorecase'; }
+            when 'g'          { make ':global';   }
+            default:          { make '';            }
+        }
+    }
+    method flags($/) {
+        my $made\-elts = $/<flag>»\&.made\&.join('');
+        make $made\-elts;
+    }
+}
+
+
+.EE
+.RE
+.SS Methods
 .SS CreatePerlRegex(…)
 
 Creates a Perl5 regex from a string with some options suported\&.
@@ -73,6 +247,8 @@ rx:Perl5:ignorecase/^fo+\n$/
 
 .EE
 .RE
+.P
+Top of Document [#table-of-contents]
 .SS CreateEMCA262Regex(…)
 
 Creates a regex from a string containing a EMCA262Regex with some options suported\&.
@@ -108,6 +284,80 @@ Nil
 rx:ignorecase/^\x66\x6F+\n/
 [2] > so "Fooo\n" ~~ $regex\-emca;
 False
+
+
+.EE
+.RE
+.P
+Top of Document [#table-of-contents]
+.SS get\-modern\-perl5\-flags(…)
+
+A method to apply the \fBRegexUtils::FlagsPerl5Modern\fR grammar to a string, in order to filter flags\&.
+
+.RS 4m
+.EX
+method get\-modern\-perl5\-flags(Str:D $flags \-\-> Str:D) {
+    my $actions = RegexUtils::FlagsPerl5ModernActions;
+    my $match   = RegexUtils::FlagsPerl5Modern\&.parse($flags\&.substr(1), :$actions);
+    without $match {
+        die "invalid flags";
+    }
+    return $match\&.made;
+} # method get\-modern\-perl5\-flags(Str:D $flags \-\-> Str:D) #
+
+
+.EE
+.RE
+.SS get\-old\-perl5\-flags(…)
+
+Translate old style \fBPerl\fR flags into \fBRaku\fR ones using the grammar action pair
+
+.RS 4m
+.EX
+method get\-old\-perl5\-flags(Str:D $flags \-\-> Str:D) {
+    my $actions = RegexUtils::FlagsPerl5OldActions;
+    my $match   = RegexUtils::FlagsPerl5Old\&.parse($flags, :$actions);
+    without $match {
+        die "invalid flags $flags";
+    }
+    return $match\&.made;
+} # method get\-old\-perl5\-flags(Str:D $flags \-\-> Str:D) #
+
+
+.EE
+.RE
+.SS get\-modern\-emca262\-flags(…)
+
+Filter modern flags for use with \fBEMCA262Regex's\fR\&.
+
+.RS 4m
+.EX
+method get\-modern\-emca262\-flags(Str:D $flags \-\-> Str:D) {
+    my $actions = RegexUtils::FlagsEMCA262ModernActions;
+    my $match   = RegexUtils::FlagsEMCA262Modern\&.parse($flags\&.substr(1), :$actions);
+    without $match {
+        die "invalid flags";
+    }
+    return $match\&.made;
+} # method get\-modern\-emca262\-flags(Str:D $flags \-\-> Str:D) #
+
+
+.EE
+.RE
+.SS get\-old\-emca262\-flags(…)
+
+Translate old style \fBEMCA262Regex\fR flags into \fBRaku\fR ones\&.
+
+.RS 4m
+.EX
+method get\-old\-emca262\-flags(Str:D $flags \-\-> Str:D) {
+    my $actions = RegexUtils::FlagsEMCA262OldActions;
+    my $match   = RegexUtils::FlagsEMCA262Old\&.parse($flags, :$actions);
+    without $match {
+        die "invalid flags $flags";
+    }
+    return $match\&.made;
+} # method get\-old\-emca262\-flags(Str:D $flags \-\-> Str:D) #
 
 
 .EE

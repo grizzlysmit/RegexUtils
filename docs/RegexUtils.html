@@ -582,8 +582,18 @@ footer {
  <tr class="toc-level-1"><td class="toc-text"><a href="#Copyright">Copyright</a></td></tr>
  <tr class="toc-level-1"><td class="toc-text"><a href="#Introduction">Introduction</a></td></tr>
  <tr class="toc-level-2"><td class="toc-text"><a href="#Motivations">Motivations</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#Grammars">Grammars</a></td></tr>
+ <tr class="toc-level-3"><td class="toc-text"><a href="#grammar_FlagsPerl5Modern_&amp;_action_class_FlagsPerl5ModernActions">grammar FlagsPerl5Modern &amp; action class FlagsPerl5ModernActions</a></td></tr>
+ <tr class="toc-level-3"><td class="toc-text"><a href="#grammar_FlagsEMCA262Modern_&amp;_action_class_FlagsEMCA262ModernActions">grammar FlagsEMCA262Modern &amp; action class FlagsEMCA262ModernActions</a></td></tr>
+ <tr class="toc-level-3"><td class="toc-text"><a href="#grammar_FlagsPerl5Old_&amp;_action_class_FlagsPerl5OldActions">grammar FlagsPerl5Old &amp; action class FlagsPerl5OldActions</a></td></tr>
+ <tr class="toc-level-3"><td class="toc-text"><a href="#grammar_FlagsEMCA262Old_&amp;_action_class_FlagsEMCA262OldActions">grammar FlagsEMCA262Old &amp; action class FlagsEMCA262OldActions</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#Methods">Methods</a></td></tr>
  <tr class="toc-level-3"><td class="toc-text"><a href="#CreatePerlRegex(…)">CreatePerlRegex(…)</a></td></tr>
  <tr class="toc-level-3"><td class="toc-text"><a href="#CreateEMCA262Regex(…)">CreateEMCA262Regex(…)</a></td></tr>
+ <tr class="toc-level-3"><td class="toc-text"><a href="#get-modern-perl5-flags(…)">get-modern-perl5-flags(…)</a></td></tr>
+ <tr class="toc-level-3"><td class="toc-text"><a href="#get-old-perl5-flags(…)">get-old-perl5-flags(…)</a></td></tr>
+ <tr class="toc-level-3"><td class="toc-text"><a href="#get-modern-emca262-flags(…)">get-modern-emca262-flags(…)</a></td></tr>
+ <tr class="toc-level-3"><td class="toc-text"><a href="#get-old-emca262-flags(…)">get-old-emca262-flags(…)</a></td></tr>
 </table></div>
 </nav><div id="RegexUtils"></div><div class="subtitle"><p>A Raku module that provides helpers for Regex stuff both Perl5 and EMCA262Regex</p></div><div class="pod-body"><section name="___top"><h2 id="Table_of_Contents"><a href="#___top" class="u" title="go to top of document">Table of Contents</a></h2>
 <ul>
@@ -597,10 +607,22 @@ footer {
 <ul>
 <li><p><a href="#motivations">Motivations</a></p></li>
 </ul>
-<li><p><a href="#introduction">Introduction</a></p></li>
-<li><p><a href="#introduction">Introduction</a></p></li>
+<li><p><a href="#grammars">Grammars</a></p></li>
+<ul>
+<li><p><a href="#grammar-flagsperl5modern--action-class-flagsperl5modernactions">grammar FlagsPerl5Modern &amp; action class FlagsPerl5ModernActions</a></p></li>
+<li><p><a href="#grammar-flagsemca262modern--action-class-flagsemca262modernactions">grammar FlagsEMCA262Modern &amp; action class FlagsEMCA262ModernActions</a></p></li>
+<li><p><a href="#grammar-flagsperl5old--action-class-flagsperl5oldactions">grammar FlagsPerl5Old &amp; action class FlagsPerl5OldActions</a></p></li>
+<li><p><a href="#grammar-flagsemca262old--action-class-flagsemca262oldactions">grammar FlagsEMCA262Old &amp; action class FlagsEMCA262OldActions</a></p></li>
+</ul>
+<li><p><a href="#methods">Methods</a></p></li>
+<ul>
 <li><p><a href="#createperlregex">CreatePerlRegex(…)</a></p></li>
 <li><p><a href="#createemca262regex">CreateEMCA262Regex(…)</a></p></li>
+<li><p><a href="#get-modern-perl5-flags">get-modern-perl5-flags(…)</a></p></li>
+<li><p><a href="#get-old-perl5-flags">get-old-perl5-flags(…)</a></p></li>
+<li><p><a href="#get-modern-emca262-flags">get-modern-emca262-flags(…)</a></p></li>
+<li><p><a href="#get-old-emca262-flags">get-old-emca262-flags(…)</a></p></li>
+</ul>
 </ul>
 <section>
 <h1 id="Name"><a href="#___top" class="u" title="go to top of document">NAME</a></h1>
@@ -612,7 +634,113 @@ footer {
 </section>
 <h1 id="Introduction"><a href="#RegexUtils" class="u" title="go to top of document">Introduction</a></h1>
 <p>A <strong>Raku</strong> module that provides helpers for <strong><code>Regex</code></strong> stuff both <strong><code>Perl5</code></strong> and <strong><code>EMCA262Regex</code></strong>.</p><p><a href="#table-of-contents">Top of Document</a></p><h2 id="Motivations"><a href="#RegexUtils" class="u" title="go to top of document">Motivations</a></h2>
-<p>I have a program which exists as a <strong><code>Mod_Perl</code></strong> web program,and a <strong>Raku</strong> command line version. The <strong><code>Mod_Perl</code></strong> version also uses <strong>JavaScript</strong> and &lt;JavaScript/EMCA&gt; regexes I found that there was an all most perfect solution for the use of these regexes in the <strong><code>EMCA262Regex</code></strong> module, but I still needed to convert the strings to regexes as I wanted to add options, <strong><code>RegexUtils::CreateEMCA262Regex</code></strong> is my solution to this problem I then added <strong><code>RegexUtils::CreatePerlRegex</code></strong> for doing the same for <strong>Perl5</strong> regexes.</p><p><a href="#able-of-contents">Top of Document</a></p></section><section name="pod"><h3 id="CreatePerlRegex(…)"><a href="#RegexUtils" class="u" title="go to top of document">CreatePerlRegex(…)</a></h3>
+<p>I have a program which exists as a <strong><code>Mod_Perl</code></strong> web program,and a <strong>Raku</strong> command line version. The <strong><code>Mod_Perl</code></strong> version also uses <strong>JavaScript</strong> and &lt;JavaScript/EMCA&gt; regexes I found that there was an all most perfect solution for the use of these regexes in the <strong><code>EMCA262Regex</code></strong> module, but I still needed to convert the strings to regexes as I wanted to add options, <strong><code>RegexUtils::CreateEMCA262Regex</code></strong> is my solution to this problem I then added <strong><code>RegexUtils::CreatePerlRegex</code></strong> for doing the same for <strong>Perl5</strong> regexes.</p><p><a href="#able-of-contents">Top of Document</a></p><h2 id="Grammars"><a href="#RegexUtils" class="u" title="go to top of document">Grammars</a></h2>
+</section><section name="pod"><h3 id="grammar_FlagsPerl5Modern_&amp;_action_class_FlagsPerl5ModernActions"><a href="#RegexUtils" class="u" title="go to top of document">grammar FlagsPerl5Modern &amp; action class FlagsPerl5ModernActions</a></h3>
+<p>Support for using a limited range of flags for use with Perl 5 style regexes, using <strong>Raku's</strong> style of regex flags.</p><pre class="pod-block-code">grammar FlagsPerl5Modern {
+    token TOP   { &lt;flags&gt; }
+    token flags { &lt;flag&gt;+ % ':' }
+    token flag  {  \w+ }
+}
+
+class FlagsPerl5ModernActions {
+    method TOP($/) { make $&lt;flags&gt;.made }
+    method flag($/) {
+        given ~$/ {
+            when 'i'          {
+                                  make ':ignorecase';
+                              }
+            when 'ignorecase' {
+                                  make ':ignorecase';
+                              }
+            when 'm'          { make ':ignoremark'; }
+            when 'ignoremark' { make ':ignoremark'; }
+            when 's'          { make ':sigspace';   }
+            when 'sigspace'   { make ':sigspace';   }
+            default:          { make '';            }
+        } 
+    }
+    method flags($/) {
+        my $made-elts = $&lt;flag&gt;».made.join('');
+        make $made-elts;
+    }
+}
+
+</pre></section><section name="pod"><h3 id="grammar_FlagsEMCA262Modern_&amp;_action_class_FlagsEMCA262ModernActions"><a href="#RegexUtils" class="u" title="go to top of document">grammar FlagsEMCA262Modern &amp; action class FlagsEMCA262ModernActions</a></h3>
+<p>A grammar and action pair to parse modern style <strong>Raku</strong> flags and get rid of ones that do not fit with ECMA regexes.</p><pre class="pod-block-code">grammar FlagsEMCA262Modern {
+    token TOP   { &lt;flags&gt; }
+    token flags { &lt;flag&gt;+ % ':' }
+    token flag  {  \w+ }
+}
+
+class FlagsEMCA262ModernActions {
+    method TOP($/) { make $&lt;flags&gt;.made }
+    method flag($/) {
+        given ~$/ {
+            when 'i'          {
+                                  make ':ignorecase';
+                              }
+            when 'ignorecase' {
+                                  make ':ignorecase';
+                              }
+            when 'g'          { make ':global';     }
+            when 'global'     { make ':global';     }
+            default:          { make '';            }
+        } 
+    }
+    method flags($/) {
+        my $made-elts = $&lt;flag&gt;».made.join('');
+        make $made-elts;
+    }
+}
+
+</pre></section><section name="pod"><h3 id="grammar_FlagsPerl5Old_&amp;_action_class_FlagsPerl5OldActions"><a href="#RegexUtils" class="u" title="go to top of document">grammar FlagsPerl5Old &amp; action class FlagsPerl5OldActions</a></h3>
+<p>A grammar and action pair to parse old style <strong>Perl</strong> flags into modern <strong>Raku</strong> flags.</p><pre class="pod-block-code">grammar FlagsPerl5Old {
+    token TOP   { &lt;flags&gt; }
+    token flags { &lt;flag&gt;+ % &lt;ww&gt; }
+    token flag  { \w }
+}
+
+class FlagsPerl5OldActions {
+    method TOP($/) { make $&lt;flags&gt;.made }
+    method flag($/) {
+        given ~$/ {
+            when 'i'          { make ':ignorecase'; }
+            when 'm'          { make ':ignoremark'; }
+            when 'g'          { make ':global';     }
+            when 'x'          { make ':sigspace';   }
+            default:          { make '';            }
+        }
+    }
+    method flags($/) {
+        my $made-elts = $/&lt;flag&gt;».made.join('');
+        make $made-elts;
+    }
+}
+
+</pre></section><section name="pod"><h3 id="grammar_FlagsEMCA262Old_&amp;_action_class_FlagsEMCA262OldActions"><a href="#RegexUtils" class="u" title="go to top of document">grammar FlagsEMCA262Old &amp; action class FlagsEMCA262OldActions</a></h3>
+<p>A grammar and action pair to convert <strong>ECMA262Regex</strong> flags into <strong>Raku</strong> ones</p><pre class="pod-block-code">grammar FlagsEMCA262Old {
+    token TOP   { &lt;flags&gt; }
+    token flags { &lt;flag&gt;+ % &lt;ww&gt; }
+    token flag  { \w }
+}
+
+class FlagsEMCA262OldActions {
+    method TOP($/) { make $&lt;flags&gt;.made }
+    method flag($/) {
+        given ~$/ {
+            when 'i'          { make ':ignorecase'; }
+            when 'g'          { make ':global';   }
+            default:          { make '';            }
+        }
+    }
+    method flags($/) {
+        my $made-elts = $/&lt;flag&gt;».made.join('');
+        make $made-elts;
+    }
+}
+
+</pre></section><section name="pod"><h2 id="Methods"><a href="#RegexUtils" class="u" title="go to top of document">Methods</a></h2>
+<h3 id="CreatePerlRegex(…)"><a href="#RegexUtils" class="u" title="go to top of document">CreatePerlRegex(…)</a></h3>
 <p>Creates a Perl5 regex from a string with some options suported.</p><p><strong>Note:</strong> not all raku flags are supported due to diffrences between the flags in the two languages.</p><p>Here is some exaple use.</p><pre class="pod-block-code">[0] &gt; use RegexUtils;
 Nil
 [1] &gt; my $regex-perl5 = RegexUtils.CreatePerlRegex('^fo+\n$', ':ignorecase');
@@ -624,7 +752,7 @@ True
 [4] &gt; say $regex-perl5;
 rx:Perl5:ignorecase/^fo+\n$/
 
-</pre></section><section name="pod"><h3 id="CreateEMCA262Regex(…)"><a href="#RegexUtils" class="u" title="go to top of document">CreateEMCA262Regex(…)</a></h3>
+</pre><p><a href="#table-of-contents">Top of Document</a></p></section><section name="pod"><h3 id="CreateEMCA262Regex(…)"><a href="#RegexUtils" class="u" title="go to top of document">CreateEMCA262Regex(…)</a></h3>
 <p>Creates a regex from a string containing a EMCA262Regex with some options suported.</p><p><strong><code>CreateEMCA262Regex</code></strong> converts a <strong>EMCA262 Regex</strong> to a raku one. using the <a href="https://modules.raku.org/dist/ECMA262Regex:zef:zef:jnthn">EMCA262Regex</a> package and applies flags to it.</p><p>Here is some exaple use.</p><pre class="pod-block-code">[0] &gt; use RegexUtils;
 Nil
 [1] &gt; my $regex-emca = RegexUtils.CreateEMCA262Regex('^[f][o]+\n', ':ignorecase');
@@ -641,8 +769,48 @@ rx:ignorecase/^\x66\x6F+\n/
 [2] &gt; so &quot;Fooo\n&quot; ~~ $regex-emca;
 False
 
+</pre><p><a href="#table-of-contents">Top of Document</a></p></section><section name="pod"><h3 id="get-modern-perl5-flags(…)"><a href="#RegexUtils" class="u" title="go to top of document">get-modern-perl5-flags(…)</a></h3>
+<p>A method to apply the <strong><code>RegexUtils::FlagsPerl5Modern</code></strong> grammar to a string, in order to filter flags.</p><pre class="pod-block-code">method get-modern-perl5-flags(Str:D $flags --&gt; Str:D) {
+    my $actions = RegexUtils::FlagsPerl5ModernActions;
+    my $match   = RegexUtils::FlagsPerl5Modern.parse($flags.substr(1), :$actions);
+    without $match {
+        die &quot;invalid flags&quot;;
+    }
+    return $match.made;
+} # method get-modern-perl5-flags(Str:D $flags --&gt; Str:D) #
+
+</pre><h3 id="get-old-perl5-flags(…)"><a href="#RegexUtils" class="u" title="go to top of document">get-old-perl5-flags(…)</a></h3>
+<p>Translate old style <strong>Perl</strong> flags into <strong>Raku</strong> ones using the grammar action pair</p><pre class="pod-block-code">method get-old-perl5-flags(Str:D $flags --&gt; Str:D) {
+    my $actions = RegexUtils::FlagsPerl5OldActions;
+    my $match   = RegexUtils::FlagsPerl5Old.parse($flags, :$actions);
+    without $match {
+        die &quot;invalid flags $flags&quot;;
+    }
+    return $match.made;
+} # method get-old-perl5-flags(Str:D $flags --&gt; Str:D) #
+
+</pre><h3 id="get-modern-emca262-flags(…)"><a href="#RegexUtils" class="u" title="go to top of document">get-modern-emca262-flags(…)</a></h3>
+<p>Filter modern flags for use with <strong>EMCA262Regex's</strong>.</p><pre class="pod-block-code">method get-modern-emca262-flags(Str:D $flags --&gt; Str:D) {
+    my $actions = RegexUtils::FlagsEMCA262ModernActions;
+    my $match   = RegexUtils::FlagsEMCA262Modern.parse($flags.substr(1), :$actions);
+    without $match {
+        die &quot;invalid flags&quot;;
+    }
+    return $match.made;
+} # method get-modern-emca262-flags(Str:D $flags --&gt; Str:D) #
+
+</pre><h3 id="get-old-emca262-flags(…)"><a href="#RegexUtils" class="u" title="go to top of document">get-old-emca262-flags(…)</a></h3>
+<p>Translate old style <strong>EMCA262Regex</strong> flags into <strong>Raku</strong> ones.</p><pre class="pod-block-code">method get-old-emca262-flags(Str:D $flags --&gt; Str:D) {
+    my $actions = RegexUtils::FlagsEMCA262OldActions;
+    my $match   = RegexUtils::FlagsEMCA262Old.parse($flags, :$actions);
+    without $match {
+        die &quot;invalid flags $flags&quot;;
+    }
+    return $match.made;
+} # method get-old-emca262-flags(Str:D $flags --&gt; Str:D) #
+
 </pre></section>		</div>
-</div><footer><div>Rendered from <span class="path">UNNAMED</span></div><div>at <span class="time">2023-12-24T01:23:08Z</span></div></footer>
+</div><footer><div>Rendered from <span class="path">UNNAMED</span></div><div>at <span class="time">2023-12-24T08:25:10Z</span></div></footer>
 	</body>
 </html>
 
